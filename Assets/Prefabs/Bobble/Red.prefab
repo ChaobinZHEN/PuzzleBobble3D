@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23571289551782962}
   - component: {fileID: 54404070720245976}
   m_Layer: 0
-  m_Name: Blue 1
+  m_Name: Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b36ca337d8cf64592890e16b74dd7629, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
