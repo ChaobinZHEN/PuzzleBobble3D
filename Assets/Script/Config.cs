@@ -8,6 +8,7 @@ public class Config : MonoBehaviour {
     public static int col = 16;
     public static float radBobble = 0.15f;
     public static float offsetHeight = 0.07068966f;
+    public static string staticBobble = "Staic Bobble";
 	// Use this for initialization
 	void Start () {
 		

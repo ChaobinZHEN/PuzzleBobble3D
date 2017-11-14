@@ -34,7 +34,7 @@ public class CreateBobble : MonoBehaviour
         leftCornerPos = leftCorner.transform.position;
 
         // Initiate bobbles
-        Init(3);
+        Init(5);
         //  Create bobbles ready to shoot
         Vector3 shootPos = GameObject.FindGameObjectWithTag("Muzzle").transform.position;
         randBobble = bobbleStyle[Random.Range(0, layerMaxBallNum)];
@@ -68,19 +68,23 @@ public class CreateBobble : MonoBehaviour
         }
         // Create point for bobble stop postion
         for (int i = 0; i < row; i++) {
-            if(i % 2 == 0) {
-                for (int j = 0; j < col; j++) {
-                    m_bobble[i, j].pointObject = Instantiate(leftCorner, new Vector3(leftCornerPos.x + i * 1.732050f * Config.radBobble, leftCornerPos.y - i * Config.offsetHeight, leftCornerPos.z + j * 2 * Config.radBobble), Quaternion.identity);
-                    m_bobble[i, j].bobbleObject = null;
-                }
+            for (int j = 0; j < (col - (i % 2)); j++) {
+                m_bobble[i, j].pointObject = Instantiate(leftCorner, new Vector3(leftCornerPos.x + i * 1.732050f * Config.radBobble, leftCornerPos.y - i * Config.offsetHeight, leftCornerPos.z + j * 2 * Config.radBobble + (i % 2) * Config.radBobble), Quaternion.identity) as GameObject;
+                m_bobble[i, j].bobbleObject = null;
             }
-            if(i % 2 == 1) {
-                for (int j = 0; j < (col - 1); j++) {
-                    m_bobble[i, j].pointObject = Instantiate(leftCorner, new Vector3(leftCornerPos.x + i * 1.732050f * Config.radBobble, leftCornerPos.y - i * Config.offsetHeight, leftCornerPos.z + j * 2 * Config.radBobble + Config.radBobble), Quaternion.identity);
-                    m_bobble[i, j].bobbleObject = null;
-                }
-            }
+        }
 
+        // Create random bobbles
+        for (int i = 0; i <= num; i++) {
+            for (int j = 0; j < (col - (i % 2)); j++)
+            {
+                randBobble = bobbleStyle[Random.Range(0, layerMaxBallNum)];
+                m_bobble[i, j].bobbleObject = Instantiate(randBobble, m_bobble[i, j].pointObject.transform.position, Quaternion.identity) as GameObject;
+                m_bobble[i, j].bobbleObject.GetComponent<Rigidbody>().isKinematic = true;
+                m_bobble[i, j].bobbleObject.tag = Config.staticBobble;
+                m_bobble[i, j].bobbleObject.GetComponent<Collider>().isTrigger = true;
+
+            }
         }
     }
 }
