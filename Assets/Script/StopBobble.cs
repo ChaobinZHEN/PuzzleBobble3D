@@ -6,6 +6,7 @@ public class StopBobble : MonoBehaviour {
     private Transform m_transform;
     private Transform muzzleForm;
     private Vector3 shootPos;
+    private Vector3 loadingPos;
     private Vector3 vel;
 
 
@@ -28,6 +29,8 @@ public class StopBobble : MonoBehaviour {
         m_transform = this.m_transform;
         muzzleForm = GameObject.Find("Muzzle").transform;
         shootPos = muzzleForm.position;
+        loadingPos = GameObject.Find("Loading").transform.position;
+
 	}
 	
 	// Update is called once per frame
@@ -46,9 +49,8 @@ public class StopBobble : MonoBehaviour {
     {
         CreateBobble.Instance.shootBobble[0] = null;
         CreateBobble.Instance.shootBobble[0] = CreateBobble.Instance.shootBobble[1];
-        CreateBobble.Instance.shootBobble[1] = null;
         CreateBobble.Instance.shootBobble[0].transform.position = shootPos;   //  Move loading bobble to the muzzle
-        Vector3 loadingPos = GameObject.Find("Loading").transform.position;
+        CreateBobble.Instance.shootBobble[1] = null;
         CreateBobble.Instance.shootBobble[1] = Instantiate(CreateBobble.Instance.bobbleStyle[Random.Range(0, CreateBobble.Instance.layerMaxBallNum)], loadingPos, Quaternion.identity) as GameObject;
         Cannon.Instance.shootable = true;
     }
@@ -65,11 +67,16 @@ public class StopBobble : MonoBehaviour {
             GetComponent<Rigidbody>().isKinematic = true;
             transform.position = CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].pointObject.transform.position; //停在最近点
             CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject = this.gameObject;
-            //GetComponent<Rigidbody>().velocity = Vector3.zero;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
             GetComponent<Collider>().isTrigger = true;
-            //创建要发射的泡泡
-            CreateShootBobble();
+
+            if (Cannon.Instance.creatable == true)
+            {
+                CreateShootBobble();
+                Cannon.Instance.creatable = false;
+            }
         }
+
 
         // Put all the same color bobbles into list A
         for (int i = 0; i < m_x; i++)

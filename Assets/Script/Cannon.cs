@@ -9,6 +9,7 @@ public class Cannon : MonoBehaviour {
     public float rotateSpeed = 50f;
     public float shootSpeed;
     public float minSpeed;
+    public bool creatable = false;
 
     private Transform cannonForm;
     private Transform muzzleForm;
@@ -19,7 +20,7 @@ public class Cannon : MonoBehaviour {
     private Vector3 cannonPos;  //  Cannon position
     private Vector3 loadingPos;    //  Loading position
 
-    private CreateBobble createBooble;
+    //public CreateBobble createBooble;
 
 	// Use this for initialization
 	void Start () {
@@ -30,7 +31,7 @@ public class Cannon : MonoBehaviour {
         cannonPos = cannonForm.position;
         muzzlePos = muzzleForm.position;
         loadingPos = loadingForm.position;
-        createBooble = GetComponent<CreateBobble>();
+        //createBooble = new CreateBobble();
         shootable = true;
 		
 	}
@@ -48,12 +49,14 @@ public class Cannon : MonoBehaviour {
         }
 
         if (Input.GetKey(KeyCode.W) && shootable)
-        {
-            GameObject bobbleObject = createBooble.shootBobble[0];
+        {   
+            GameObject bobbleObject = CreateBobble.Instance.shootBobble[0];
+            //createBooble.shootBobble[0] = null;
             shootDir = muzzleForm.position - cannonForm.position;
             bobbleObject.GetComponent<Rigidbody>().isKinematic = false;
             bobbleObject.GetComponent<Rigidbody>().velocity = shootDir * shootSpeed;
             bobbleObject.GetComponent<Collider>().isTrigger = false;
+            creatable = true;
             /*
             // Keep minimun speed
             if (bobbleObject.GetComponent<Rigidbody>().velocity.magnitude <= minSpeed)
