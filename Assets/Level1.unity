@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 10083799}
   m_Layer: 0
   m_Name: Right Wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -610,8 +610,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootable: 0
   rotateSpeed: 50
-  shootSpeed: 60
-  minSpeed: 0.5
+  shootSpeed: 80
+  minSpeed: 5
 --- !u!114 &616475030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -957,7 +957,7 @@ GameObject:
   - component: {fileID: 1794991709}
   m_Layer: 0
   m_Name: Left Wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

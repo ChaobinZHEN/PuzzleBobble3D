@@ -6,6 +6,8 @@ public class StopBobble : MonoBehaviour {
     private Transform m_transform;
     private Transform muzzleForm;
     private Vector3 shootPos;
+    private Vector3 vel;
+
 
     struct xy
     {
@@ -30,12 +32,21 @@ public class StopBobble : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        /*
+        vel = GetComponent<Rigidbody>().velocity;
+        if(vel.magnitude <= Cannon.Instance.minSpeed){
+            vel = vel * Cannon.Instance.minSpeed;
+            GetComponent<Rigidbody>().velocity = vel;
+        }
+        */
 	}
+
 
     void CreateShootBobble()
     {
+        CreateBobble.Instance.shootBobble[0] = null;
         CreateBobble.Instance.shootBobble[0] = CreateBobble.Instance.shootBobble[1];
+        CreateBobble.Instance.shootBobble[1] = null;
         CreateBobble.Instance.shootBobble[0].transform.position = shootPos;   //  Move loading bobble to the muzzle
         Vector3 loadingPos = GameObject.Find("Loading").transform.position;
         CreateBobble.Instance.shootBobble[1] = Instantiate(CreateBobble.Instance.bobbleStyle[Random.Range(0, CreateBobble.Instance.layerMaxBallNum)], loadingPos, Quaternion.identity) as GameObject;
@@ -43,7 +54,8 @@ public class StopBobble : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider other)
-    {
+    {   
+
         if (other.tag == Config.staticBobble || other.tag == Config.topWall)
         {
             Destroy(GetComponent<StopBobble>());
@@ -58,16 +70,54 @@ public class StopBobble : MonoBehaviour {
             //创建要发射的泡泡
             CreateShootBobble();
         }
+
+        // Put all the same color bobbles into list A
+        for (int i = 0; i < m_x; i++)
+        {
+            for (int j = 0; j < m_y - i % 2; j++)
+            {
+                if (CreateBobble.Instance.m_bobble[i, j].bobbleObject != null) 
+                {
+                    if (GetComponent<Rigidbody>().mass == CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<Rigidbody>().mass) //两个质量相等，是用这个来区分泡泡的类型
+                    {
+                        xy t_xy;
+                        t_xy.x = i;
+                        t_xy.y = j;
+                        listA.Add(t_xy);
+                    }
+                }
+            }
+        }
+
+        // Find the intersect same color bobbles and put them into list B
+        all_intersect(m_xy);
+
+        /*
+        // If there are three same color intersect
+        if (listB.Count >= 3)
+        {
+            for (int i = 0; i < listB.Count; i++)
+            {
+                xy t_xy = (xy)listB[i];
+                // m_scoretotal1 += CreatBall.Instance.m_Layering; 
+                CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().dead = true;
+                CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
+
+
+            }
+
+        }
+        */
     }
 
-    xy NearPoint(Vector3 point) //寻找最近点
+    // Find the near point when the bobble stop
+    xy NearPoint(Vector3 point)
     {
         float length = 100f;
         xy nearpoint = new xy();
 
         for (int i = 0; i < m_x; i++)
         {
-
             for (int j = 0; j < m_y - (i % 2); j++)
             {
                 if (CreateBobble.Instance.m_bobble[i, j].bobbleObject == null)
@@ -85,5 +135,37 @@ public class StopBobble : MonoBehaviour {
             }
         }
         return nearpoint;
+    }
+
+    // The two bobbles intersect or not
+    public bool intersect(Vector3 vect1, float radius1, Vector3 vect2, float radius2)
+    {
+        return (Vector3.Distance(vect1, vect2) < (radius1 + radius2 + radius1 * 0.01f + radius2 * 0.01f));
+    }
+
+    void all_intersect(xy t_xy)
+    {
+        stackA.Push(t_xy);
+        xy judgxy;
+        xy tempxy;
+        while (stackA.Count > 0)
+        {
+            judgxy = (xy)stackA.Pop();
+            for (int i = 0; i < listA.Count; i++)
+            {
+                if (listA[i] != null)
+                {
+                    tempxy = (xy)listA[i];
+                    if (intersect(CreateBobble.Instance.m_bobble[judgxy.x, judgxy.y].bobbleObject.transform.position, Config.radBobble, CreateBobble.Instance.m_bobble[tempxy.x, tempxy.y].bobbleObject.transform.position, Config.radBobble))
+                    { 
+                        stackA.Push(tempxy);
+                        listA[i] = null;
+                    }
+                }
+            }
+            listB.Add(judgxy);
+
+        }
+
     }
 }

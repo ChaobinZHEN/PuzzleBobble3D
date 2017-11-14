@@ -12,6 +12,7 @@ TagManager:
   - Yellow
   - StaticBobble
   - TopWall
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -21,11 +22,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Blue
+  - Green
+  - Red
+  - Yellow
+  - Purple
   - 
   - 
   - 

@@ -63,8 +63,12 @@ public class Cannon : MonoBehaviour {
             */
             shootable = false;
             bobbleObject.AddComponent<StopBobble>();
+
         }
 
+  
+
 	}
+
 
 }
