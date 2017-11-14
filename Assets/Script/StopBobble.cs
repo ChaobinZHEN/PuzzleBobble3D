@@ -24,7 +24,7 @@ public class StopBobble : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         m_transform = this.m_transform;
-        muzzleForm = m_transform.Find("Muzzle");
+        muzzleForm = GameObject.Find("Muzzle").transform;
         shootPos = muzzleForm.position;
 	}
 	
@@ -52,7 +52,7 @@ public class StopBobble : MonoBehaviour {
 
             GetComponent<Rigidbody>().isKinematic = true;
             transform.position = CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].pointObject.transform.position; //停在最近点
-
+            CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject = this.gameObject;
             //GetComponent<Rigidbody>().velocity = Vector3.zero;
             GetComponent<Collider>().isTrigger = true;
             //创建要发射的泡泡
