@@ -47,11 +47,6 @@ public class Cannon : MonoBehaviour {
             cannonForm.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
         }
 
-
-	}
-
-    private void FixedUpdate()
-    {
         if (Input.GetKey(KeyCode.W) && shootable)
         {
             GameObject bobbleObject = createBooble.shootBobble[0];
@@ -59,13 +54,17 @@ public class Cannon : MonoBehaviour {
             bobbleObject.GetComponent<Rigidbody>().isKinematic = false;
             bobbleObject.GetComponent<Rigidbody>().velocity = shootDir * shootSpeed;
             bobbleObject.GetComponent<Collider>().isTrigger = false;
+            /*
             // Keep minimun speed
             if (bobbleObject.GetComponent<Rigidbody>().velocity.magnitude <= minSpeed)
             {
                 bobbleObject.GetComponent<Rigidbody>().velocity =  bobbleObject.GetComponent<Rigidbody>().velocity.normalized * minSpeed;
             }
+            */
             shootable = false;
             bobbleObject.AddComponent<StopBobble>();
         }
-    }
+
+	}
+
 }
