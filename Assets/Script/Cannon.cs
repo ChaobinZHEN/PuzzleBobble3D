@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Cannon : MonoBehaviour {
 
@@ -13,6 +14,10 @@ public class Cannon : MonoBehaviour {
     public float shootTime;
 
     public float timer = 0f;
+
+    private int score;
+
+    public Text scoreText;
 
     private Transform cannonForm;
     private Transform muzzleForm;
@@ -38,6 +43,8 @@ public class Cannon : MonoBehaviour {
         loadingPos = loadingForm.position;
         //createBooble = new CreateBobble();
         shootable = true;
+
+        score = 0;
 		
 	}
 	
@@ -77,6 +84,8 @@ public class Cannon : MonoBehaviour {
             Debug.Log("Reset bobble!");
         }
 
+        setScoreText();
+
 
 	}
 
@@ -101,5 +110,17 @@ public class Cannon : MonoBehaviour {
         timer = 0f;
     }
 
+    public void setScoreText() {
+        scoreText.text = "Score: " + score.ToString();
+    }
+
+    public void PoppedScore(){
+        score += 10;
+    }
+
+    public void RollingScore(int num)
+    {
+        score += 10 * (int)Mathf.Pow(2, num);
+    }
 
 }

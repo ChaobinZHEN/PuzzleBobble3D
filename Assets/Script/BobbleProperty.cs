@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BobbleProperty : MonoBehaviour {
-    public bool dead = false;
-    public bool drop = false;
+    public bool popped = false;
+    public bool rolling = false;
     public bool stop = false;
     // Color Blue = 1, Green = 2, Purple = 3, Red = 4, Yellow = 5
     public int color;
@@ -21,18 +21,18 @@ public class BobbleProperty : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        if(dead)
+        if(popped)
         {
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
             timer += Time.deltaTime;
             if (timer > 1.0f) {
                 timer = 0f;
                 Destroy(this.gameObject);
-                Debug.Log("Destroy!");
+                Debug.Log("Popped!");
             }
         }
 
-        if (drop)
+        if (rolling)
         {
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Collider>().isTrigger = false;
@@ -42,7 +42,7 @@ public class BobbleProperty : MonoBehaviour {
             {
                 timer = 0f;
                 Destroy(this.gameObject);
-                Debug.Log("Drop!");
+                Debug.Log("Rolling!");
             }
         }
 

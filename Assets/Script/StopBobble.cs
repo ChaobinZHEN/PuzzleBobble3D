@@ -117,7 +117,8 @@ public class StopBobble : MonoBehaviour {
             {
                 xy t_xy = (xy)listB[i];
                 // m_scoretotal1 += CreatBall.Instance.m_Layering; 
-                CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().dead = true;
+                CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().popped = true;
+                Cannon.Instance.PoppedScore();
                 //Destroy(CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject);
                 CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
 
@@ -157,6 +158,7 @@ public class StopBobble : MonoBehaviour {
 
         //Debug.Log("List A is " + listA.Count);
 
+        Cannon.Instance.RollingScore(listA.Count);
         if(listA.Count > 0) {
             for (int i = 0; i < listA.Count; i++)
             {
@@ -164,7 +166,7 @@ public class StopBobble : MonoBehaviour {
                 {
                     xy t_xy = (xy)listA[i];
                     // m_scoretotal1 += CreatBall.Instance.m_Layering; 
-                    CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().drop = true;
+                    CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().rolling = true;
                     //Destroy(CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject);
                     CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
                 }

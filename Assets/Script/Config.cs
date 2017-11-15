@@ -11,7 +11,7 @@ public class Config : MonoBehaviour {
     public const string staticBobble = "StaticBobble";
     public const string topWall = "TopWall";
 
-    public const float resetTime = 5.0f;   // Kill the bobble if it can't stop
+    public const float resetTime = 5.0f;   // Pop the bobble if it can't stop
 
     public const bool debug = true;
 
