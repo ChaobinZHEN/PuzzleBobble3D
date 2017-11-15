@@ -5,6 +5,7 @@ using UnityEngine;
 public class BobbleProperty : MonoBehaviour {
     public bool dead = false;
     public bool drop = false;
+    public bool stop = false;
     // Color Blue = 1, Green = 2, Purple = 3, Red = 4, Yellow = 5
     public int color;
 

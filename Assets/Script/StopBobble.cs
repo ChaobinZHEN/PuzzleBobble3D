@@ -29,7 +29,6 @@ public class StopBobble : MonoBehaviour {
         m_transform = this.m_transform;
         cannonForm = GameObject.Find("Cannon").transform;
         shootPos = cannonForm.position;
-        loadingPos = GameObject.Find("Loading").transform.position;
 
 	}
 	
@@ -52,6 +51,7 @@ public class StopBobble : MonoBehaviour {
         CreateBobble.Instance.shootBobble[0].transform.parent = null;
         CreateBobble.Instance.shootBobble[0].transform.position = shootPos;   //  Move loading bobble to the muzzle
         CreateBobble.Instance.shootBobble[1] = null;
+        loadingPos = GameObject.Find("Loading").transform.position;
         CreateBobble.Instance.shootBobble[1] = Instantiate(CreateBobble.Instance.bobbleStyle[Random.Range(0, CreateBobble.Instance.layerMaxBallNum)], loadingPos, Quaternion.identity) as GameObject;
         CreateBobble.Instance.shootBobble[1].transform.parent = GameObject.Find("Loading").transform;
         Cannon.Instance.shootable = true;
@@ -61,16 +61,17 @@ public class StopBobble : MonoBehaviour {
     {   
 
         if (other.tag == Config.staticBobble || other.tag == Config.topWall)
-        {
+        {   
+
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
             Destroy(GetComponent<StopBobble>());
             tag = Config.staticBobble;
             m_xy = NearPoint(transform.position);
 
             GetComponent<Rigidbody>().isKinematic = true;
             transform.position = CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].pointObject.transform.position; //停在最近点
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
             GetComponent<Collider>().isTrigger = true;
-
+            GetComponent<BobbleProperty>().stop = true;
             if (Cannon.Instance.creatable == true)
             {
                 CreateShootBobble();
