@@ -11,7 +11,8 @@ public class Cannon : MonoBehaviour {
     public float minSpeed;
     public bool creatable = false;
     public float shootTime;
-    private float timer = 0f;
+
+    public float timer = 0f;
 
     private Transform cannonForm;
     private Transform muzzleForm;
@@ -21,6 +22,8 @@ public class Cannon : MonoBehaviour {
     private Vector3 muzzlePos;   //  Muzzle position
     private Vector3 cannonPos;  //  Cannon position
     private Vector3 loadingPos;    //  Loading position
+
+    private GameObject bobbleObject;
 
     //public CreateBobble createBooble;
 
@@ -50,21 +53,35 @@ public class Cannon : MonoBehaviour {
             cannonForm.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
         }
 
-        timer += Time.deltaTime;
-        if (timer > shootTime && shootable) {
-            Shoot();
-        }
-
         if (Input.GetKey(KeyCode.W) && shootable)
         {   
 
             Shoot();
         } 
 
+        // Shoot automatically
+        timer += Time.deltaTime;
+        if (timer > shootTime && shootable) {
+            Shoot();
+        }
+
+        // Reset the bobble if it can't stop
+        if (timer > Config.resetTime && !bobbleObject.GetComponent<BobbleProperty>().stop)
+        {
+
+            bobbleObject.GetComponent<Rigidbody>().isKinematic = true;
+            bobbleObject.GetComponent<Collider>().isTrigger = true;
+            bobbleObject.transform.position = cannonForm.position;
+            shootable = true;
+            timer = 0f;
+            Debug.Log("Reset bobble!");
+        }
+
+
 	}
 
     void Shoot() {
-        GameObject bobbleObject = CreateBobble.Instance.shootBobble[0];
+        bobbleObject = CreateBobble.Instance.shootBobble[0];
         //createBooble.shootBobble[0] = null;
         shootDir = muzzleForm.position - cannonForm.position;
         bobbleObject.GetComponent<Rigidbody>().isKinematic = false;
@@ -78,6 +95,7 @@ public class Cannon : MonoBehaviour {
             bobbleObject.GetComponent<Rigidbody>().velocity =  bobbleObject.GetComponent<Rigidbody>().velocity.normalized * minSpeed;
         }
         */
+
         shootable = false;
         bobbleObject.AddComponent<StopBobble>();
         timer = 0f;

@@ -7,7 +7,8 @@ public class StopBobble : MonoBehaviour {
     private Transform cannonForm;
     private Vector3 shootPos;
     private Vector3 loadingPos;
-    private Vector3 vel;
+    //private Vector3 vel;
+    //private float timer;
 
 
     struct xy
@@ -26,7 +27,7 @@ public class StopBobble : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        m_transform = this.m_transform;
+        //m_transform = this.m_transform;
         cannonForm = GameObject.Find("Cannon").transform;
         shootPos = cannonForm.position;
 
@@ -41,6 +42,7 @@ public class StopBobble : MonoBehaviour {
             GetComponent<Rigidbody>().velocity = vel;
         }
         */
+
 	}
 
 
@@ -55,6 +57,7 @@ public class StopBobble : MonoBehaviour {
         CreateBobble.Instance.shootBobble[1] = Instantiate(CreateBobble.Instance.bobbleStyle[Random.Range(0, CreateBobble.Instance.layerMaxBallNum)], loadingPos, Quaternion.identity) as GameObject;
         CreateBobble.Instance.shootBobble[1].transform.parent = GameObject.Find("Loading").transform;
         Cannon.Instance.shootable = true;
+        Debug.Log("Create Bobble!");
     }
 
     void OnTriggerEnter(Collider other)
@@ -152,7 +155,7 @@ public class StopBobble : MonoBehaviour {
             }
         }
 
-        Debug.Log("List A is " + listA.Count);
+        //Debug.Log("List A is " + listA.Count);
 
         if(listA.Count > 0) {
             for (int i = 0; i < listA.Count; i++)
