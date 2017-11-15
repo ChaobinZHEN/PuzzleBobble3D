@@ -1052,7 +1052,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1887067672}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!124 &1887067674
 Behaviour:
   m_ObjectHideFlags: 0
@@ -1126,7 +1126,7 @@ Prefab:
     - target: {fileID: 23073422299509504, guid: 8db55bd9270514bf5865c62d9e3146de,
         type: 2}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4994972639793210, guid: 8db55bd9270514bf5865c62d9e3146de, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1194,7 +1194,7 @@ Prefab:
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 0}
     - target: {fileID: 23073422299509504, guid: 8db55bd9270514bf5865c62d9e3146de,
         type: 2}
       propertyPath: m_CastShadows
@@ -1219,6 +1219,21 @@ Prefab:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 114656443503816474, guid: 8db55bd9270514bf5865c62d9e3146de,
+        type: 2}
+      propertyPath: color
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 54885044699803392, guid: 8db55bd9270514bf5865c62d9e3146de,
+        type: 2}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 135333557035407126, guid: 8db55bd9270514bf5865c62d9e3146de,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8db55bd9270514bf5865c62d9e3146de, type: 2}
   m_IsPrefabParent: 0

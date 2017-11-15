@@ -66,7 +66,6 @@ public class StopBobble : MonoBehaviour {
 
             GetComponent<Rigidbody>().isKinematic = true;
             transform.position = CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].pointObject.transform.position; //停在最近点
-            CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject = this.gameObject;
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             GetComponent<Collider>().isTrigger = true;
 
@@ -79,28 +78,33 @@ public class StopBobble : MonoBehaviour {
 
 
         // Put all the same color bobbles into list A
+        listA.Clear();
         for (int i = 0; i < m_x; i++)
         {
             for (int j = 0; j < m_y - i % 2; j++)
             {
                 if (CreateBobble.Instance.m_bobble[i, j].bobbleObject != null) 
                 {
-                    if (GetComponent<Rigidbody>().mass == CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<Rigidbody>().mass) //两个质量相等，是用这个来区分泡泡的类型
+                    if (CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<BobbleProperty>().color == GetComponent<BobbleProperty>().color)
                     {
                         xy t_xy;
                         t_xy.x = i;
                         t_xy.y = j;
                         listA.Add(t_xy);
+                        CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<BobbleProperty>().inListA = true;
                     }
                 }
             }
         }
 
+        CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject = this.gameObject;
+        Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List A is " + listA.Count);
+
         // Find the intersect same color bobbles and put them into list B
         all_intersect(m_xy);
 
-        /*
         // If there are three same color intersect
+        Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List B is " + listB.Count);
         if (listB.Count >= 3)
         {
             for (int i = 0; i < listB.Count; i++)
@@ -108,13 +112,13 @@ public class StopBobble : MonoBehaviour {
                 xy t_xy = (xy)listB[i];
                 // m_scoretotal1 += CreatBall.Instance.m_Layering; 
                 CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().dead = true;
+                //Destroy(CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject);
                 CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
 
 
             }
 
         }
-        */
     }
 
     // Find the near point when the bobble stop
@@ -123,7 +127,7 @@ public class StopBobble : MonoBehaviour {
         float length = 100f;
         xy nearpoint = new xy();
 
-        for (int i = 0; i < m_x; i++)
+        for (int i = m_x -1; i >= 0; i--)
         {
             for (int j = 0; j < m_y - (i % 2); j++)
             {
@@ -144,14 +148,11 @@ public class StopBobble : MonoBehaviour {
         return nearpoint;
     }
 
-    // The two bobbles intersect or not
-    public bool intersect(Vector3 vect1, float radius1, Vector3 vect2, float radius2)
-    {
-        return (Vector3.Distance(vect1, vect2) < (radius1 + radius2 + radius1 * 0.01f + radius2 * 0.01f));
-    }
 
     void all_intersect(xy t_xy)
     {
+        stackA.Clear();
+        listB.Clear();
         stackA.Push(t_xy);
         xy judgxy;
         xy tempxy;
@@ -163,7 +164,7 @@ public class StopBobble : MonoBehaviour {
                 if (listA[i] != null)
                 {
                     tempxy = (xy)listA[i];
-                    if (intersect(CreateBobble.Instance.m_bobble[judgxy.x, judgxy.y].bobbleObject.transform.position, Config.radBobble, CreateBobble.Instance.m_bobble[tempxy.x, tempxy.y].bobbleObject.transform.position, Config.radBobble))
+                    if (Vector3.Distance(CreateBobble.Instance.m_bobble[judgxy.x, judgxy.y].bobbleObject.transform.position, CreateBobble.Instance.m_bobble[tempxy.x, tempxy.y].bobbleObject.transform.position) < 2 * Config.radBobble * 1.1f)
                     { 
                         stackA.Push(tempxy);
                         listA[i] = null;
@@ -171,6 +172,7 @@ public class StopBobble : MonoBehaviour {
                 }
             }
             listB.Add(judgxy);
+            CreateBobble.Instance.m_bobble[judgxy.x, judgxy.y].bobbleObject.GetComponent<BobbleProperty>().inListB = true;
 
         }
 

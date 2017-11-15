@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class BobbleProperty : MonoBehaviour {
     public bool dead = false;
+    // Color Blue = 1, Green = 2, Purple = 3, Red = 4, Yellow = 5
+    public int color;
 
+    public bool inListA = false;
+    public bool inListB = false;
+
+    private float timer = 0f;
 	// Use this for initialization
 	void Start () {
 		
@@ -12,9 +18,17 @@ public class BobbleProperty : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
         if(dead)
         {
-            Destroy(this.gameObject);
+            this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            timer += Time.deltaTime;
+            if (timer > 1.0f) {
+                timer = 0f;
+                Destroy(this.gameObject);
+                Debug.Log("Destroy!");
+            }
         }
+
 	}
 }

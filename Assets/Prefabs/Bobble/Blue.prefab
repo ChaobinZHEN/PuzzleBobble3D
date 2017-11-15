@@ -110,6 +110,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dead: 0
+  color: 1
+  inListA: 0
+  inListB: 0
 --- !u!135 &135253653119319978
 SphereCollider:
   m_ObjectHideFlags: 1
