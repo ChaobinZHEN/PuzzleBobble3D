@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BobbleProperty : MonoBehaviour {
     public bool dead = false;
+    public bool drop = false;
     // Color Blue = 1, Green = 2, Purple = 3, Red = 4, Yellow = 5
     public int color;
 
@@ -24,6 +25,18 @@ public class BobbleProperty : MonoBehaviour {
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
             timer += Time.deltaTime;
             if (timer > 1.0f) {
+                timer = 0f;
+                Destroy(this.gameObject);
+                Debug.Log("Destroy!");
+            }
+        }
+
+        if (drop)
+        {
+            this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            timer += Time.deltaTime;
+            if (timer > 1.0f)
+            {
                 timer = 0f;
                 Destroy(this.gameObject);
                 Debug.Log("Destroy!");

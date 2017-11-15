@@ -91,20 +91,20 @@ public class StopBobble : MonoBehaviour {
                         t_xy.x = i;
                         t_xy.y = j;
                         listA.Add(t_xy);
-                        CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<BobbleProperty>().inListA = true;
+                        //CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<BobbleProperty>().inListA = true;
                     }
                 }
             }
         }
 
         CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject = this.gameObject;
-        Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List A is " + listA.Count);
+        //Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List A is " + listA.Count);
 
         // Find the intersect same color bobbles and put them into list B
         all_intersect(m_xy);
 
         // If there are three same color intersect
-        Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List B is " + listB.Count);
+        //Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List B is " + listB.Count);
         if (listB.Count >= 3)
         {
             for (int i = 0; i < listB.Count; i++)
@@ -119,6 +119,52 @@ public class StopBobble : MonoBehaviour {
             }
 
         }
+
+        // Drop bobbles
+        listA.Clear();
+        // Put all the bobbles except row 1 into list A
+        for (int i = 1; i < m_x; i++)
+        {
+            for (int j = 0; j < m_y - i % 2; j++)
+            {
+                if (CreateBobble.Instance.m_bobble[i, j].bobbleObject != null)
+                {
+                    xy t_xy;
+                    t_xy.x = i;
+                    t_xy.y = j;
+                    listA.Add(t_xy);
+                    //CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<BobbleProperty>().inListA = true;
+                }
+            }
+        }
+
+        // Clean the bobble not intersect with row 1 out of list A
+        for (int j = 0; j < m_y; j++){
+            if(CreateBobble.Instance.m_bobble[0, j].bobbleObject != null){
+                xy t_xy;
+                t_xy.x = 0;
+                t_xy.y = j;
+                listA.Add(t_xy);
+                all_intersect(t_xy); 
+            }
+        }
+
+        Debug.Log("List A is " + listA.Count);
+
+        if(listA.Count > 0) {
+            for (int i = 0; i < listA.Count; i++)
+            {
+                if (listA[i] != null)
+                {
+                    xy t_xy = (xy)listA[i];
+                    // m_scoretotal1 += CreatBall.Instance.m_Layering; 
+                    CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().drop = true;
+                    //Destroy(CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject);
+                    CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
+                }
+            }
+        }
+
     }
 
     // Find the near point when the bobble stop
@@ -172,7 +218,7 @@ public class StopBobble : MonoBehaviour {
                 }
             }
             listB.Add(judgxy);
-            CreateBobble.Instance.m_bobble[judgxy.x, judgxy.y].bobbleObject.GetComponent<BobbleProperty>().inListB = true;
+            //CreateBobble.Instance.m_bobble[judgxy.x, judgxy.y].bobbleObject.GetComponent<BobbleProperty>().inListB = true;
 
         }
 
