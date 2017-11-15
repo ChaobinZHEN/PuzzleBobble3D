@@ -34,12 +34,14 @@ public class BobbleProperty : MonoBehaviour {
         if (drop)
         {
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            this.gameObject.GetComponent<Collider>().isTrigger = false;
+
             timer += Time.deltaTime;
-            if (timer > 1.0f)
+            if (timer > 5.0f)
             {
                 timer = 0f;
                 Destroy(this.gameObject);
-                Debug.Log("Destroy!");
+                Debug.Log("Drop!");
             }
         }
 
