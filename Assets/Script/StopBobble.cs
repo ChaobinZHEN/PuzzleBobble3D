@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StopBobble : MonoBehaviour {
     private Transform m_transform;
-    private Transform muzzleForm;
+    private Transform cannonForm;
     private Vector3 shootPos;
     private Vector3 loadingPos;
     private Vector3 vel;
@@ -27,8 +27,8 @@ public class StopBobble : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         m_transform = this.m_transform;
-        muzzleForm = GameObject.Find("Muzzle").transform;
-        shootPos = muzzleForm.position;
+        cannonForm = GameObject.Find("Cannon").transform;
+        shootPos = cannonForm.position;
         loadingPos = GameObject.Find("Loading").transform.position;
 
 	}
@@ -49,9 +49,11 @@ public class StopBobble : MonoBehaviour {
     {
         CreateBobble.Instance.shootBobble[0] = null;
         CreateBobble.Instance.shootBobble[0] = CreateBobble.Instance.shootBobble[1];
+        CreateBobble.Instance.shootBobble[0].transform.parent = null;
         CreateBobble.Instance.shootBobble[0].transform.position = shootPos;   //  Move loading bobble to the muzzle
         CreateBobble.Instance.shootBobble[1] = null;
         CreateBobble.Instance.shootBobble[1] = Instantiate(CreateBobble.Instance.bobbleStyle[Random.Range(0, CreateBobble.Instance.layerMaxBallNum)], loadingPos, Quaternion.identity) as GameObject;
+        CreateBobble.Instance.shootBobble[1].transform.parent = GameObject.Find("Loading").transform;
         Cannon.Instance.shootable = true;
     }
 

@@ -13,6 +13,7 @@ TagManager:
   - StaticBobble
   - TopWall
   - Wall
+  - Cannon
   layers:
   - Default
   - TransparentFX

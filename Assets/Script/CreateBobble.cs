@@ -36,12 +36,13 @@ public class CreateBobble : MonoBehaviour
         // Initiate bobbles
         Init(5);
         //  Create bobbles ready to shoot
-        Vector3 shootPos = GameObject.FindGameObjectWithTag("Muzzle").transform.position;
+        Vector3 shootPos = GameObject.FindGameObjectWithTag("Cannon").transform.position;
         randBobble = bobbleStyle[Random.Range(0, layerMaxBallNum)];
         shootBobble[0] = Instantiate(randBobble, shootPos, Quaternion.identity) as GameObject;
-        shootPos = GameObject.Find("Loading").transform.position;
+        Vector3 loadingPos = GameObject.Find("Loading").transform.position;
         randBobble = bobbleStyle[Random.Range(0, layerMaxBallNum)];
-        shootBobble[1] = Instantiate(randBobble, shootPos, Quaternion.identity) as GameObject;
+        shootBobble[1] = Instantiate(randBobble, loadingPos, Quaternion.identity) as GameObject;
+        shootBobble[1].transform.parent = GameObject.Find("Loading").transform;
 	}
 	
 	// Update is called once per frame
