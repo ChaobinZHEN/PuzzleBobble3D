@@ -24,6 +24,7 @@ public class Cannon : MonoBehaviour {
     private int score;
 
     public Text scoreText;
+    //public Text finalScoreText;
 
     private Transform cannonForm;
     private Transform muzzleForm;
@@ -35,6 +36,7 @@ public class Cannon : MonoBehaviour {
     private Vector3 loadingPos;    //  Loading position
 
     public GameObject bobbleObject;
+    public GameObject gameOver;
 
     //public CreateBobble createBooble;
 
@@ -99,7 +101,17 @@ public class Cannon : MonoBehaviour {
             movingTimer = 0f;
         }
 
-
+        // Game over
+        if(defeat) {
+            defeat = false;
+            Instantiate(gameOver, Vector2.zero, Quaternion.identity);
+            /*
+            Text text;
+            text = GameObject.Find("Game Over/Score Text").GetComponent<Text>();
+            text = scoreText;
+            */
+            Time.timeScale = 0f;
+        }
 
 
         setScoreText();
@@ -146,10 +158,7 @@ public class Cannon : MonoBehaviour {
     public void setScoreText()
     {
         scoreText.text = "Score: " + score.ToString();
-        if (Config.debug)
-        {
-            Debug.Log("Socre is " + score);
-        }
+
     }
     public void PoppedScore(){
         score += 10;

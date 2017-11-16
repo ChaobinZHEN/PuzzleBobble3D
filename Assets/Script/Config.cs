@@ -16,6 +16,8 @@ public class Config : MonoBehaviour {
 
     public const bool debug = true;
 
+    public const float defeatDistance = 1.26f + radBobble;
+
 	// Use this for initialization
 	void Start () {
 		

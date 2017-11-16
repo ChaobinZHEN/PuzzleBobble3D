@@ -77,6 +77,7 @@ public class StopBobble : MonoBehaviour {
             transform.position = CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].pointObject.transform.position; //停在最近点
             //GetComponent<Collider>().isTrigger = true;
             GetComponent<BobbleProperty>().stop = true;
+
             if (Cannon.Instance.creatable == true)
             {
                 CreateShootBobble();
@@ -104,6 +105,21 @@ public class StopBobble : MonoBehaviour {
             }
 
             CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject = this.gameObject;
+
+            // Defeat detect
+            for (int i = 0; i < m_x; i++)
+            {
+                for (int j = 0; j < m_y - i % 2; j++)
+                {
+                    if (CreateBobble.Instance.m_bobble[i, j].bobbleObject != null)
+                    {
+                        if (CreateBobble.Instance.m_bobble[i, j].bobbleObject.transform.position.x >= (GameObject.Find("Moving Up").transform.position.x - Config.defeatDistance)) 
+                        {
+                            Cannon.Instance.defeat = true;
+                        }
+                    }
+                }
+            }
             //CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject.transform.parent = GameObject.Find("Top Wall").transform;
             //Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List A is " + listA.Count);
 
