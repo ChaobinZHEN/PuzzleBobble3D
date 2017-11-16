@@ -177,4 +177,8 @@ public class Cannon : MonoBehaviour {
         }
     }
 
+    public void Level1Button()
+    {
+        Debug.Log("Level 1 Button click!");
+    }
 }
