@@ -86,7 +86,7 @@ public class CreateBobble : MonoBehaviour
                 //m_bobble[i, j].bobbleObject.transform.parent = GameObject.Find("Top Wall").transform;
                 m_bobble[i, j].bobbleObject.GetComponent<Rigidbody>().isKinematic = true;
                 m_bobble[i, j].bobbleObject.tag = Config.staticBobble;
-                m_bobble[i, j].bobbleObject.GetComponent<Collider>().isTrigger = true;
+                //m_bobble[i, j].bobbleObject.GetComponent<Collider>().isTrigger = true;
 
             }
         }

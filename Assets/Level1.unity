@@ -457,14 +457,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootable: 0
   rotateSpeed: 50
-  shootSpeed: 30
-  minSpeed: 5
+  shootSpeed: 13
   creatable: 0
   shootTime: 3
   timer: 0
   movingTime: 10
   defeat: 0
   scoreText: {fileID: 657532958}
+  bobbleObject: {fileID: 0}
 --- !u!114 &616475029
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -62,20 +62,20 @@ public class StopBobble : MonoBehaviour {
         Debug.Log("Create Bobble!");
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision collision)
     {   
 
-        if (other.tag == Config.staticBobble || other.tag == Config.topWall)
+        if (collision.collider.tag == Config.staticBobble || collision.collider.tag == Config.topWall)
         {   
 
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             Destroy(GetComponent<StopBobble>());
-            //tag = Config.staticBobble;
+            tag = Config.staticBobble;
             m_xy = NearPoint(transform.position);
 
             GetComponent<Rigidbody>().isKinematic = true;
             transform.position = CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].pointObject.transform.position; //停在最近点
-            GetComponent<Collider>().isTrigger = true;
+            //GetComponent<Collider>().isTrigger = true;
             GetComponent<BobbleProperty>().stop = true;
             if (Cannon.Instance.creatable == true)
             {
@@ -83,11 +83,6 @@ public class StopBobble : MonoBehaviour {
                 Cannon.Instance.creatable = false;
             }
 
-        }
-
-        // Avoid defeat plane
-        if (other.tag != "Defeat")
-        {
             // Put all the same color bobbles into list A
             listA.Clear();
             for (int i = 0; i < m_x; i++)
