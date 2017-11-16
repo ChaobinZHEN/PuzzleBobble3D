@@ -126,10 +126,14 @@ public class Cannon : MonoBehaviour {
         timer = 0f;
     }
 
-    public void setScoreText() {
+    public void setScoreText()
+    {
         scoreText.text = "Score: " + score.ToString();
+        if (Config.debug)
+        {
+            Debug.Log("Socre is " + score);
+        }
     }
-
     public void PoppedScore(){
         score += 10;
     }
