@@ -47,15 +47,16 @@ public class StopBobble : MonoBehaviour {
 
 
     void CreateShootBobble()
-    {
+    {   
+
+        CreateBobble.Instance.shootBobble[0].transform.parent = null;
         CreateBobble.Instance.shootBobble[0] = null;
         CreateBobble.Instance.shootBobble[0] = CreateBobble.Instance.shootBobble[1];
-        CreateBobble.Instance.shootBobble[0].transform.parent = null;
         CreateBobble.Instance.shootBobble[0].transform.position = shootPos;   //  Move loading bobble to the muzzle
         CreateBobble.Instance.shootBobble[1] = null;
         loadingPos = GameObject.Find("Loading").transform.position;
         CreateBobble.Instance.shootBobble[1] = Instantiate(CreateBobble.Instance.bobbleStyle[Random.Range(0, CreateBobble.Instance.layerMaxBallNum)], loadingPos, Quaternion.identity) as GameObject;
-        CreateBobble.Instance.shootBobble[1].transform.parent = GameObject.Find("Loading").transform;
+        //CreateBobble.Instance.shootBobble[1].transform.parent = GameObject.Find("Loading").transform;
         Cannon.Instance.shootable = true;
         Debug.Log("Create Bobble!");
     }
@@ -104,6 +105,7 @@ public class StopBobble : MonoBehaviour {
         }
 
         CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject = this.gameObject;
+        //CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject.transform.parent = GameObject.Find("Top Wall").transform;
         //Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List A is " + listA.Count);
 
         // Find the intersect same color bobbles and put them into list B

@@ -36,7 +36,7 @@ public class BobbleProperty : MonoBehaviour {
         {
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Collider>().isTrigger = false;
-
+            this.gameObject.GetComponent<Rigidbody>().velocity = (Vector3.up + Vector3.right)*10;
             timer += Time.deltaTime;
             if (timer > 5.0f)
             {

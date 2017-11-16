@@ -10,6 +10,7 @@ public class Config : MonoBehaviour {
     public const float offsetHeight = 0.15714286f;
     public const string staticBobble = "StaticBobble";
     public const string topWall = "TopWall";
+    public const int initRow = 3;
 
     public const float resetTime = 5.0f;   // Pop the bobble if it can't stop
 

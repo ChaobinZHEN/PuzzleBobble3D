@@ -11,8 +11,8 @@ public class CreateBobble : MonoBehaviour
     public int layerMaxBallNum = 5;
 
     private GameObject randBobble;
-    private GameObject leftCorner;
-    private Vector3 leftCornerPos;
+    private GameObject emptyPoint;
+    private Vector3 emptyPointPos;
 
     public struct bobble
     {
@@ -30,19 +30,20 @@ public class CreateBobble : MonoBehaviour
 	void Start () {
         Instance = this;
         m_bobble = new bobble[row, col];
-        leftCorner = GameObject.Find("Left Corner");
-        leftCornerPos = leftCorner.transform.position;
+        emptyPoint = GameObject.Find("Empty Point");
+        emptyPointPos = emptyPoint.transform.position;
 
         // Initiate bobbles
-        Init(5);
+        Init(Config.initRow);
         //  Create bobbles ready to shoot
         Vector3 shootPos = GameObject.FindGameObjectWithTag("Cannon").transform.position;
         randBobble = bobbleStyle[Random.Range(0, layerMaxBallNum)];
         shootBobble[0] = Instantiate(randBobble, shootPos, Quaternion.identity) as GameObject;
+        shootBobble[0].transform.parent = GameObject.Find("Moving Up").transform;
         Vector3 loadingPos = GameObject.Find("Loading").transform.position;
         randBobble = bobbleStyle[Random.Range(0, layerMaxBallNum)];
         shootBobble[1] = Instantiate(randBobble, loadingPos, Quaternion.identity) as GameObject;
-        shootBobble[1].transform.parent = GameObject.Find("Loading").transform;
+        shootBobble[1].transform.parent = GameObject.Find("Moving Up").transform;
 	}
 	
 	// Update is called once per frame
@@ -70,8 +71,9 @@ public class CreateBobble : MonoBehaviour
         // Create point for bobble stop postion
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < (col - (i % 2)); j++) {
-                m_bobble[i, j].pointObject = Instantiate(leftCorner, new Vector3(leftCornerPos.x + i * 1.732050f * Config.radBobble, leftCornerPos.y - i * Config.offsetHeight, leftCornerPos.z + j * 2 * Config.radBobble + (i % 2) * Config.radBobble), Quaternion.identity) as GameObject;
+                m_bobble[i, j].pointObject = Instantiate(emptyPoint, new Vector3(emptyPointPos.x + i * 1.732050f * Config.radBobble, emptyPointPos.y - i * Config.offsetHeight, emptyPointPos.z + j * 2 * Config.radBobble + (i % 2) * Config.radBobble), Quaternion.identity) as GameObject;
                 m_bobble[i, j].bobbleObject = null;
+                //m_bobble[i, j].pointObject.transform.parent = GameObject.Find("Top Wall").transform;
             }
         }
 
@@ -81,6 +83,7 @@ public class CreateBobble : MonoBehaviour
             {
                 randBobble = bobbleStyle[Random.Range(0, layerMaxBallNum)];
                 m_bobble[i, j].bobbleObject = Instantiate(randBobble, m_bobble[i, j].pointObject.transform.position, Quaternion.identity) as GameObject;
+                //m_bobble[i, j].bobbleObject.transform.parent = GameObject.Find("Top Wall").transform;
                 m_bobble[i, j].bobbleObject.GetComponent<Rigidbody>().isKinematic = true;
                 m_bobble[i, j].bobbleObject.tag = Config.staticBobble;
                 m_bobble[i, j].bobbleObject.GetComponent<Collider>().isTrigger = true;

@@ -13,7 +13,9 @@ public class Cannon : MonoBehaviour {
     public bool creatable = false;
     public float shootTime;
 
-    public float timer = 0f;
+    public float timer;
+    private float movingTimer;
+    public float movingTime;
 
     private int score;
 
@@ -43,6 +45,8 @@ public class Cannon : MonoBehaviour {
         loadingPos = loadingForm.position;
         //createBooble = new CreateBobble();
         shootable = true;
+        timer = 0f;
+        movingTimer = 0f;
 
         score = 0;
 		
@@ -82,6 +86,12 @@ public class Cannon : MonoBehaviour {
             shootable = true;
             timer = 0f;
             Debug.Log("Reset bobble!");
+        }
+
+        movingTimer += Time.deltaTime;
+        if(movingTimer > movingTime) {
+            GameObject.Find("Moving Up").transform.Translate(Vector3.left * 0.2f);
+            movingTimer = 0f;
         }
 
         setScoreText();
