@@ -14,6 +14,7 @@ TagManager:
   - TopWall
   - Wall
   - Cannon
+  - Defeat
   layers:
   - Default
   - TransparentFX

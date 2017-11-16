@@ -56,7 +56,7 @@ public class StopBobble : MonoBehaviour {
         CreateBobble.Instance.shootBobble[1] = null;
         loadingPos = GameObject.Find("Loading").transform.position;
         CreateBobble.Instance.shootBobble[1] = Instantiate(CreateBobble.Instance.bobbleStyle[Random.Range(0, CreateBobble.Instance.layerMaxBallNum)], loadingPos, Quaternion.identity) as GameObject;
-        //CreateBobble.Instance.shootBobble[1].transform.parent = GameObject.Find("Loading").transform;
+        CreateBobble.Instance.shootBobble[1].transform.parent = GameObject.Find("Moving Up").transform;
         Cannon.Instance.shootable = true;
         Debug.Log("Create Bobble!");
     }

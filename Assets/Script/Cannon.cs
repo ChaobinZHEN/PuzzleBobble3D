@@ -17,6 +17,8 @@ public class Cannon : MonoBehaviour {
     private float movingTimer;
     public float movingTime;
 
+    public bool defeat = false;
+
     private int score;
 
     public Text scoreText;
@@ -91,6 +93,7 @@ public class Cannon : MonoBehaviour {
         movingTimer += Time.deltaTime;
         if(movingTimer > movingTime) {
             GameObject.Find("Moving Up").transform.Translate(Vector3.left * 0.2f);
+            GameObject.Find("Main Camera").transform.Translate(Vector3.up * 0.2f);
             movingTimer = 0f;
         }
 
@@ -98,6 +101,8 @@ public class Cannon : MonoBehaviour {
 
 
 	}
+
+
 
     void Shoot() {
         bobbleObject = CreateBobble.Instance.shootBobble[0];
