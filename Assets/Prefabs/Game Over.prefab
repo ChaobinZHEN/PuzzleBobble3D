@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 114340747548459798}
   - component: {fileID: 114506644404041044}
   m_Layer: 5
-  m_Name: Game Over 1
+  m_Name: Game Over
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6488563407ffd495cb06ba462e0d9bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goToTheScene: Level1
 --- !u!114 &114100551224568884
 MonoBehaviour:
   m_ObjectHideFlags: 1
