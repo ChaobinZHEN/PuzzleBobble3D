@@ -97,6 +97,7 @@ public class Cannon : MonoBehaviour {
             movingTimer = 0f;
         }
 
+
         setScoreText();
 
 
@@ -136,11 +137,19 @@ public class Cannon : MonoBehaviour {
     }
     public void PoppedScore(){
         score += 10;
+        if (Config.debug)
+        {
+            Debug.Log("Pop Score!");
+        }
     }
 
     public void RollingScore(int num)
     {
         score += 10 * (int)Mathf.Pow(2, num);
+        if (Config.debug)
+        {
+            Debug.Log("Rolling Score!");
+        }
     }
 
 }

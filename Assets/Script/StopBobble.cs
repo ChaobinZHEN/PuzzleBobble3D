@@ -7,6 +7,7 @@ public class StopBobble : MonoBehaviour {
     private Transform cannonForm;
     private Vector3 shootPos;
     private Vector3 loadingPos;
+    private int rollingCount;
     //private Vector3 vel;
     //private float timer;
 
@@ -30,7 +31,7 @@ public class StopBobble : MonoBehaviour {
         //m_transform = this.m_transform;
         cannonForm = GameObject.Find("Cannon").transform;
         shootPos = cannonForm.position;
-
+        rollingCount = 0;
 	}
 	
 	// Update is called once per frame
@@ -84,16 +85,62 @@ public class StopBobble : MonoBehaviour {
 
         }
 
-
-        // Put all the same color bobbles into list A
-        listA.Clear();
-        for (int i = 0; i < m_x; i++)
+        // Avoid defeat plane
+        if (other.tag != "Defeat")
         {
-            for (int j = 0; j < m_y - i % 2; j++)
+            // Put all the same color bobbles into list A
+            listA.Clear();
+            for (int i = 0; i < m_x; i++)
             {
-                if (CreateBobble.Instance.m_bobble[i, j].bobbleObject != null) 
+                for (int j = 0; j < m_y - i % 2; j++)
                 {
-                    if (CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<BobbleProperty>().color == GetComponent<BobbleProperty>().color)
+                    if (CreateBobble.Instance.m_bobble[i, j].bobbleObject != null)
+                    {
+                        if (CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<BobbleProperty>().color == GetComponent<BobbleProperty>().color)
+                        {
+                            xy t_xy;
+                            t_xy.x = i;
+                            t_xy.y = j;
+                            listA.Add(t_xy);
+                            //CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<BobbleProperty>().inListA = true;
+                        }
+                    }
+                }
+            }
+
+            CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject = this.gameObject;
+            //CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject.transform.parent = GameObject.Find("Top Wall").transform;
+            //Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List A is " + listA.Count);
+
+            // Find the intersect same color bobbles and put them into list B
+            all_intersect(m_xy);
+
+            // If there are three same color intersect
+            //Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List B is " + listB.Count);
+            if (listB.Count >= 3)
+            {
+                for (int i = 0; i < listB.Count; i++)
+                {
+                    xy t_xy = (xy)listB[i];
+                    // m_scoretotal1 += CreatBall.Instance.m_Layering; 
+                    CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().popped = true;
+                    Cannon.Instance.PoppedScore();
+                    //Destroy(CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject);
+                    CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
+
+
+                }
+
+            }
+
+            // Drop bobbles
+            listA.Clear();
+            // Put all the bobbles except row 1 into list A
+            for (int i = 1; i < m_x; i++)
+            {
+                for (int j = 0; j < m_y - i % 2; j++)
+                {
+                    if (CreateBobble.Instance.m_bobble[i, j].bobbleObject != null)
                     {
                         xy t_xy;
                         t_xy.x = i;
@@ -103,77 +150,48 @@ public class StopBobble : MonoBehaviour {
                     }
                 }
             }
-        }
 
-        CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject = this.gameObject;
-        //CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject.transform.parent = GameObject.Find("Top Wall").transform;
-        //Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List A is " + listA.Count);
-
-        // Find the intersect same color bobbles and put them into list B
-        all_intersect(m_xy);
-
-        // If there are three same color intersect
-        //Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List B is " + listB.Count);
-        if (listB.Count >= 3)
-        {
-            for (int i = 0; i < listB.Count; i++)
+            // Clean the bobble not intersect with row 1 out of list A
+            for (int j = 0; j < m_y; j++)
             {
-                xy t_xy = (xy)listB[i];
-                // m_scoretotal1 += CreatBall.Instance.m_Layering; 
-                CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().popped = true;
-                Cannon.Instance.PoppedScore();
-                //Destroy(CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject);
-                CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
-
-
-            }
-
-        }
-
-        // Drop bobbles
-        listA.Clear();
-        // Put all the bobbles except row 1 into list A
-        for (int i = 1; i < m_x; i++)
-        {
-            for (int j = 0; j < m_y - i % 2; j++)
-            {
-                if (CreateBobble.Instance.m_bobble[i, j].bobbleObject != null)
+                if (CreateBobble.Instance.m_bobble[0, j].bobbleObject != null)
                 {
                     xy t_xy;
-                    t_xy.x = i;
+                    t_xy.x = 0;
                     t_xy.y = j;
                     listA.Add(t_xy);
-                    //CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<BobbleProperty>().inListA = true;
+                    all_intersect(t_xy);
                 }
             }
-        }
-
-        // Clean the bobble not intersect with row 1 out of list A
-        for (int j = 0; j < m_y; j++){
-            if(CreateBobble.Instance.m_bobble[0, j].bobbleObject != null){
-                xy t_xy;
-                t_xy.x = 0;
-                t_xy.y = j;
-                listA.Add(t_xy);
-                all_intersect(t_xy); 
-            }
-        }
-
-        //Debug.Log("List A is " + listA.Count);
-
-        Cannon.Instance.RollingScore(listA.Count);
-        if(listA.Count > 0) {
-            for (int i = 0; i < listA.Count; i++)
+            if (Config.debug)
             {
-                if (listA[i] != null)
+                Debug.Log("Rolling, List A is " + listA.Count);
+            }
+
+            if (listA.Count > 0)
+            {
+                for (int i = 0; i < listA.Count; i++)
                 {
-                    xy t_xy = (xy)listA[i];
-                    // m_scoretotal1 += CreatBall.Instance.m_Layering; 
-                    CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().rolling = true;
-                    //Destroy(CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject);
-                    CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
+                    if (listA[i] != null)
+                    {
+                        xy t_xy = (xy)listA[i];
+                        // m_scoretotal1 += CreatBall.Instance.m_Layering; 
+                        CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().rolling = true;
+                        rollingCount++;
+                        //Destroy(CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject);
+                        CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
+                    }
                 }
             }
+            if (Config.debug)
+            {
+                Debug.Log("Rolling count is " + rollingCount);
+            }
+            if (rollingCount > 0)
+            {
+                Cannon.Instance.RollingScore(rollingCount);
+            }
+            rollingCount = 0;
         }
 
     }
