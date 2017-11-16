@@ -17,7 +17,8 @@ public class Cannon : MonoBehaviour {
     private float movingTimer;
     public float movingTime;
 
-    public bool defeat = false;
+    public bool defeat;
+    public bool victory;
 
     //private bool minVel;
 
@@ -37,6 +38,7 @@ public class Cannon : MonoBehaviour {
 
     public GameObject bobbleObject;
     public GameObject gameOver;
+    public GameObject win;
 
     //public CreateBobble createBooble;
 
@@ -55,6 +57,9 @@ public class Cannon : MonoBehaviour {
         movingTimer = 0f;
 
         score = 0;
+
+        defeat = false;
+        victory = false;
 		
 	}
 	
@@ -101,20 +106,22 @@ public class Cannon : MonoBehaviour {
             movingTimer = 0f;
         }
 
+        setScoreText();
+
         // Game over
         if(defeat) {
             defeat = false;
-            Instantiate(gameOver, Vector2.zero, Quaternion.identity);
-            /*
-            Text text;
-            text = GameObject.Find("Game Over/Score Text").GetComponent<Text>();
-            text = scoreText;
-            */
+            Instantiate(gameOver, Vector3.zero, Quaternion.identity);
             Time.timeScale = 0f;
         }
 
-
-        setScoreText();
+        // Victory
+        if(victory) {
+            victory = false;
+            Instantiate(win, Vector3.zero, Quaternion.identity);
+            Time.timeScale = 0f;
+        }
+            
 
 	}
 

@@ -21,7 +21,6 @@ public class Level1Button : MonoBehaviour {
         Debug.Log("Level 1 Button click!");
         SceneManager.LoadScene(goToTheScene);
         Time.timeScale = 1f;
-        Destroy(GameObject.Find("Game Over"));
     }
 
 }

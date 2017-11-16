@@ -203,6 +203,19 @@ public class StopBobble : MonoBehaviour {
                 Cannon.Instance.RollingScore(rollingCount);
             }
             rollingCount = 0;
+
+            // Victory detect
+            // Defeat detect
+            for (int i = 0; i < m_x; i++)
+            {
+                for (int j = 0; j < m_y - i % 2; j++)
+                {
+                    if (CreateBobble.Instance.m_bobble[i, j].bobbleObject == null)
+                    {
+                        Cannon.Instance.victory = true;
+                    }
+                }
+            }
         }
 
     }
