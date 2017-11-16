@@ -69,7 +69,7 @@ public class StopBobble : MonoBehaviour {
 
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             Destroy(GetComponent<StopBobble>());
-            tag = Config.staticBobble;
+            //tag = Config.staticBobble;
             m_xy = NearPoint(transform.position);
 
             GetComponent<Rigidbody>().isKinematic = true;
@@ -81,6 +81,7 @@ public class StopBobble : MonoBehaviour {
                 CreateShootBobble();
                 Cannon.Instance.creatable = false;
             }
+
         }
 
 
