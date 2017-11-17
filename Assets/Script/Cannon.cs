@@ -116,11 +116,13 @@ public class Cannon : MonoBehaviour {
         }
 
         // Victory
+        /*
         if(victory) {
             victory = false;
             Instantiate(win, Vector3.zero, Quaternion.identity);
             Time.timeScale = 0f;
         }
+        */
             
 
 	}
