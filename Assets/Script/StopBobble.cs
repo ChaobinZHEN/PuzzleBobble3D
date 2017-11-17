@@ -8,8 +8,6 @@ public class StopBobble : MonoBehaviour {
     private Vector3 shootPos;
     private Vector3 loadingPos;
     private int rollingCount;
-    //private Vector3 vel;
-    //private float timer;
 
 
     struct xy
@@ -28,7 +26,6 @@ public class StopBobble : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //m_transform = this.m_transform;
         cannonForm = GameObject.Find("Cannon").transform;
         shootPos = cannonForm.position;
         rollingCount = 0;
@@ -36,13 +33,6 @@ public class StopBobble : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        /*
-        vel = GetComponent<Rigidbody>().velocity;
-        if(vel.magnitude <= Cannon.Instance.minSpeed){
-            vel = vel * Cannon.Instance.minSpeed;
-            GetComponent<Rigidbody>().velocity = vel;
-        }
-        */
 
 	}
 
@@ -74,8 +64,7 @@ public class StopBobble : MonoBehaviour {
             m_xy = NearPoint(transform.position);
 
             GetComponent<Rigidbody>().isKinematic = true;
-            transform.position = CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].pointObject.transform.position; //停在最近点
-            //GetComponent<Collider>().isTrigger = true;
+            transform.position = CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].pointObject.transform.position; 
             GetComponent<BobbleProperty>().stop = true;
 
             if (Cannon.Instance.creatable == true)
@@ -98,7 +87,6 @@ public class StopBobble : MonoBehaviour {
                             t_xy.x = i;
                             t_xy.y = j;
                             listA.Add(t_xy);
-                            //CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<BobbleProperty>().inListA = true;
                         }
                     }
                 }
@@ -120,23 +108,18 @@ public class StopBobble : MonoBehaviour {
                     }
                 }
             }
-            //CreateBobble.Instance.m_bobble[m_xy.x, m_xy.y].bobbleObject.transform.parent = GameObject.Find("Top Wall").transform;
-            //Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List A is " + listA.Count);
 
             // Find the intersect same color bobbles and put them into list B
             all_intersect(m_xy);
 
             // If there are three same color intersect
-            //Debug.Log("Color is " + this.GetComponent<BobbleProperty>().color + " and List B is " + listB.Count);
             if (listB.Count >= 3)
             {
                 for (int i = 0; i < listB.Count; i++)
                 {
                     xy t_xy = (xy)listB[i];
-                    // m_scoretotal1 += CreatBall.Instance.m_Layering; 
                     CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().popped = true;
                     Cannon.Instance.PoppedScore();
-                    //Destroy(CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject);
                     CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
 
 
@@ -146,6 +129,7 @@ public class StopBobble : MonoBehaviour {
 
             // Drop bobbles
             listA.Clear();
+
             // Put all the bobbles except row 1 into list A
             for (int i = 1; i < m_x; i++)
             {
@@ -157,7 +141,6 @@ public class StopBobble : MonoBehaviour {
                         t_xy.x = i;
                         t_xy.y = j;
                         listA.Add(t_xy);
-                        //CreateBobble.Instance.m_bobble[i, j].bobbleObject.GetComponent<BobbleProperty>().inListA = true;
                     }
                 }
             }
@@ -186,10 +169,8 @@ public class StopBobble : MonoBehaviour {
                     if (listA[i] != null)
                     {
                         xy t_xy = (xy)listA[i];
-                        // m_scoretotal1 += CreatBall.Instance.m_Layering; 
                         CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().rolling = true;
                         rollingCount++;
-                        //Destroy(CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject);
                         CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
                     }
                 }
@@ -205,7 +186,6 @@ public class StopBobble : MonoBehaviour {
             rollingCount = 0;
 
             // Victory detect
-            // Defeat detect
             for (int i = 0; i < m_x; i++)
             {
                 for (int j = 0; j < m_y - i % 2; j++)
@@ -271,7 +251,6 @@ public class StopBobble : MonoBehaviour {
                 }
             }
             listB.Add(judgxy);
-            //CreateBobble.Instance.m_bobble[judgxy.x, judgxy.y].bobbleObject.GetComponent<BobbleProperty>().inListB = true;
 
         }
 

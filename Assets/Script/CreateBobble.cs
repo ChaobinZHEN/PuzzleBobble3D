@@ -73,7 +73,6 @@ public class CreateBobble : MonoBehaviour
             for (int j = 0; j < (col - (i % 2)); j++) {
                 m_bobble[i, j].pointObject = Instantiate(emptyPoint, new Vector3(emptyPointPos.x + i * 1.732050f * Config.radBobble, emptyPointPos.y - i * Config.offsetHeight, emptyPointPos.z + j * 2 * Config.radBobble + (i % 2) * Config.radBobble), Quaternion.identity) as GameObject;
                 m_bobble[i, j].bobbleObject = null;
-                //m_bobble[i, j].pointObject.transform.parent = GameObject.Find("Top Wall").transform;
             }
         }
 
@@ -83,10 +82,8 @@ public class CreateBobble : MonoBehaviour
             {
                 randBobble = bobbleStyle[Random.Range(0, layerMaxBallNum)];
                 m_bobble[i, j].bobbleObject = Instantiate(randBobble, m_bobble[i, j].pointObject.transform.position, Quaternion.identity) as GameObject;
-                //m_bobble[i, j].bobbleObject.transform.parent = GameObject.Find("Top Wall").transform;
                 m_bobble[i, j].bobbleObject.GetComponent<Rigidbody>().isKinematic = true;
                 m_bobble[i, j].bobbleObject.tag = Config.staticBobble;
-                //m_bobble[i, j].bobbleObject.GetComponent<Collider>().isTrigger = true;
 
             }
         }

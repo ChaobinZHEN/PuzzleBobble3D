@@ -20,12 +20,10 @@ public class Cannon : MonoBehaviour {
     public bool defeat;
     public bool victory;
 
-    //private bool minVel;
 
     private int score;
 
     public Text scoreText;
-    //public Text finalScoreText;
 
     private Transform cannonForm;
     private Transform muzzleForm;
@@ -40,7 +38,6 @@ public class Cannon : MonoBehaviour {
     public GameObject gameOver;
     public GameObject win;
 
-    //public CreateBobble createBooble;
 
 	// Use this for initialization
 	void Start () {
@@ -92,7 +89,6 @@ public class Cannon : MonoBehaviour {
         {
 
             bobbleObject.GetComponent<Rigidbody>().isKinematic = true;
-            //bobbleObject.GetComponent<Collider>().isTrigger = true;
             bobbleObject.transform.position = cannonForm.position;
             shootable = true;
             timer = 0f;
@@ -115,49 +111,24 @@ public class Cannon : MonoBehaviour {
             Time.timeScale = 0f;
         }
 
-        // Victory
-        /*
-        if(victory) {
-            victory = false;
-            Instantiate(win, Vector3.zero, Quaternion.identity);
-            Time.timeScale = 0f;
+
+        if(Input.GetKey(KeyCode.Escape)) {
+            Application.Quit();
         }
-        */
             
 
 	}
 
-    /*
-    void FixedUpdate()
-    {
-        // Minimum speed
-        if (bobbleObject.GetComponent<Rigidbody>().velocity.magnitude < minSpeed && !bobbleObject.GetComponent<BobbleProperty>().stop && minVel)
-        {
-            minVel = false;
-            bobbleObject.GetComponent<Rigidbody>().useGravity = false;
-
-        }
-    }
-    */
 
 
 
 
     void Shoot() {
         bobbleObject = CreateBobble.Instance.shootBobble[0];
-        //createBooble.shootBobble[0] = null;
         shootDir = muzzleForm.position - cannonForm.position;
         bobbleObject.GetComponent<Rigidbody>().isKinematic = false;
         bobbleObject.GetComponent<Rigidbody>().velocity = shootDir.normalized * shootSpeed;
-        //bobbleObject.GetComponent<Collider>().isTrigger = false;
         creatable = true;
-        /*
-        // Keep minimun speed
-        if (bobbleObject.GetComponent<Rigidbody>().velocity.magnitude <= minSpeed)
-        {
-            bobbleObject.GetComponent<Rigidbody>().velocity =  bobbleObject.GetComponent<Rigidbody>().velocity.normalized * minSpeed;
-        }
-        */
 
         shootable = false;
         bobbleObject.AddComponent<StopBobble>();
