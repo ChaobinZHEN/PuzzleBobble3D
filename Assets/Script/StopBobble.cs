@@ -20,9 +20,9 @@ public class StopBobble : MonoBehaviour {
     private int m_x = Config.row;
     private int m_y = Config.col;
 
-    private ArrayList listA = new ArrayList();//放入要检查的泡泡
-    private ArrayList listB = new ArrayList();//ListB用来保存最后相交的结果
-    private Stack stackA = new Stack();//栈A用来作为一个过渡
+    private ArrayList listA = new ArrayList();
+    private ArrayList listB = new ArrayList();
+    private Stack stackA = new Stack();
 
 	// Use this for initialization
 	void Start () {
@@ -124,11 +124,12 @@ public class StopBobble : MonoBehaviour {
 
 
                 }
-
             }
 
             // Drop bobbles
             listA.Clear();
+            listB.Clear();
+            stackA.Clear();
 
             // Put all the bobbles except row 1 into list A
             for (int i = 1; i < m_x; i++)
@@ -169,9 +170,12 @@ public class StopBobble : MonoBehaviour {
                     if (listA[i] != null)
                     {
                         xy t_xy = (xy)listA[i];
-                        CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().rolling = true;
-                        rollingCount++;
-                        CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
+                        if (!CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().popped)
+                        {
+                            CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject.GetComponent<BobbleProperty>().rolling = true;
+                            rollingCount++;
+                            CreateBobble.Instance.m_bobble[t_xy.x, t_xy.y].bobbleObject = null;
+                        }
                     }
                 }
             }

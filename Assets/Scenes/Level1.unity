@@ -462,7 +462,7 @@ MonoBehaviour:
   creatable: 0
   shootTime: 3
   timer: 0
-  movingTime: 5
+  movingTime: 10
   defeat: 0
   victory: 0
   scoreText: {fileID: 657532958}

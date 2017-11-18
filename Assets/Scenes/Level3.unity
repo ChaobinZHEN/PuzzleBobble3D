@@ -460,7 +460,7 @@ MonoBehaviour:
   rotateSpeed: 50
   shootSpeed: 13
   creatable: 0
-  shootTime: 3
+  shootTime: 1.5
   timer: 0
   movingTime: 5
   defeat: 0
